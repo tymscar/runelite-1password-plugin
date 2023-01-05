@@ -1,4 +1,4 @@
-![](https://github.com/tymscar/runelite-1password-plugin/media/onepassword-icon.png) ![](https://github.com/tymscar/runelite-1password-plugin/media/runelite-icon.png)
+![](https://github.com/tymscar/runelite-1password-plugin/blob/main/media/runelite-icon.png) ![](https://github.com/tymscar/runelite-1password-plugin/blob/main/media/onepassword-icon.png)
 # 1Password
 This plugin talks to the [1Password](https://1password.com/) CLI client and autocompletes your login details in [Runelite](https://runelite.net/)!
 
@@ -27,7 +27,7 @@ To get it running all you have to do is:
 5. After a second or two, your username and password will be filled in for you and you can just log in!
 
 Here is a gif with the one account flow in action:
-![](https://github.com/tymscar/runelite-1password-plugin/media/OneAccount.gif)
+![](https://github.com/tymscar/runelite-1password-plugin/blob/main/media/OneAccount.gif)
 
 ## If you only have two or more accounts
 
@@ -44,4 +44,4 @@ Here is all you have to do:
 7. One it has the details, after a second or two it will fill the username and password in for you and let you log in!
 
 Here is a gif with the multiple accounts flow in action:
-![](https://github.com/tymscar/runelite-1password-plugin/media/MultipleAccounts.gif)
+![](https://github.com/tymscar/runelite-1password-plugin/blob/main/media/MultipleAccounts.gif)
