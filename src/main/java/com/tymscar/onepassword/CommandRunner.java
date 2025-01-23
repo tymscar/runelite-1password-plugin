@@ -43,7 +43,7 @@ class CommandRunner extends Thread {
 
 		String redirect = OSType.getOSType() == OSType.Windows ? " < NUL" : " < /dev/null";
 
-		params.add("op item get " + query + " --fields label=username,label=password" + redirect);
+		params.add("op item get " + query + " --fields label=username,label=password --reveal" + redirect);
 
 		return new ProcessBuilder(params);
 	}
