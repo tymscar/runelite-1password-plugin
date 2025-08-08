@@ -17,12 +17,8 @@ final class CredentialsManager extends JFrame implements ActionListener {
 	private final Client client;
 	private CommandRunner commandRunner = null;
 	private CommandRunner otpCommandRunner = null;
-	private String password;
-	private String username;
-	private String otpCode;
 	private String selectedAccountId = null;
 	private ArrayList<String> AccountIds = new ArrayList<>();
-	private boolean credentialsApplied = false;
 	private JComboBox<String> accountsComboBox;
 	private JButton confirmButton;
 	private JFrame popupFrame;
@@ -109,11 +105,11 @@ final class CredentialsManager extends JFrame implements ActionListener {
 
 		String[] retrievedCredentials = result.split(",");
 
-		this.username = retrievedCredentials[0].trim();
-		this.password = retrievedCredentials[1].trim();
+		String username = retrievedCredentials[0].trim();
+		String password = retrievedCredentials[1].trim();
 
-		setPassword();
-		setUsername();
+		setPassword(password);
+		setUsername(username);
 
 		fetchOtpCode();
 
@@ -122,8 +118,8 @@ final class CredentialsManager extends JFrame implements ActionListener {
 
 	private void consumeOtpResult(String result) {
 		if (!result.startsWith("[ERROR]") && result.trim().length() == 6) {
-			this.otpCode = result.trim();
-			setOtpCode();
+			String otpCode = result.trim();
+			setOtpCode(otpCode);
 		}
 		otpCommandRunner = null;
 	}
@@ -135,53 +131,36 @@ final class CredentialsManager extends JFrame implements ActionListener {
 		}
 	}
 
-	private void setPassword() {
-		if (this.password != null) {
-			client.setPassword(this.password);
-			credentialsApplied = true;
+	private void setPassword(String password) {
+		if (password != null) {
+			client.setPassword(password);
 		}
 	}
 
-	private void setUsername() {
-		if (this.username != null) {
-			client.setUsername(this.username);
-			credentialsApplied = true;
+	private void setUsername(String username) {
+		if (username != null) {
+			client.setUsername(username);
 		}
 	}
 
-	private void setOtpCode() {
-		if (this.otpCode != null) {
-			client.setOtp(this.otpCode);
+	private void setOtpCode(String otpCode) {
+		if (otpCode != null) {
+			client.setOtp(otpCode);
 		}
 	}
 
-	String getOtpCode() {
-		return this.otpCode;
-	}
 
-	void clearCredentials() {
-		this.otpCode = null;
-		credentialsApplied = false;
-	}
 
 	void reset() {
-		this.password = null;
-		this.username = null;
-		this.otpCode = null;
 		this.selectedAccountId = null;
-		credentialsApplied = false;
 		commandRunner = null;
 		otpCommandRunner = null;
 	}
 
 	void injectCredentials(String accountId) {
-		if (commandRunner == null && (this.username == null || this.password == null)) {
+		if (commandRunner == null) {
 			commandRunner = new CommandRunner(accountId, this::consumeResult);
 			commandRunner.start();
-		} else if (this.username != null && this.password != null && !credentialsApplied) {
-			setPassword();
-			setUsername();
-			fetchOtpCode();
 		}
 	}
 
