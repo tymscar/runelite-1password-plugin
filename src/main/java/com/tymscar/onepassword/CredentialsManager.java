@@ -16,8 +16,10 @@ import java.util.regex.Pattern;
 final class CredentialsManager extends JFrame implements ActionListener {
 	private final Client client;
 	private CommandRunner commandRunner = null;
+	private CommandRunner otpCommandRunner = null;
 	private String password;
 	private String username;
+	private String otpCode;
 	private String selectedAccountId = null;
 	private ArrayList<String> AccountIds = new ArrayList<>();
 	private JComboBox<String> accountsComboBox;
@@ -112,7 +114,24 @@ final class CredentialsManager extends JFrame implements ActionListener {
 		setPassword();
 		setUsername();
 
+		fetchOtpCode();
+
 		commandRunner = null;
+	}
+
+	private void consumeOtpResult(String result) {
+		if (!result.startsWith("[ERROR]") && result.trim().length() == 6) {
+			this.otpCode = result.trim();
+			setOtpCode();
+		}
+		otpCommandRunner = null;
+	}
+
+	private void fetchOtpCode() {
+		if (otpCommandRunner == null) {
+			otpCommandRunner = new CommandRunner(this.selectedAccountId, this::consumeOtpResult, true);
+			otpCommandRunner.start();
+		}
 	}
 
 	private void setPassword() {
@@ -127,15 +146,27 @@ final class CredentialsManager extends JFrame implements ActionListener {
 		}
 	}
 
+	private void setOtpCode() {
+		if (this.otpCode != null) {
+			client.setOtp(this.otpCode);
+		}
+	}
+
+	String getOtpCode() {
+		return this.otpCode;
+	}
+
 	void clearCredentials() {
 		this.password = null;
 		this.username = null;
+		this.otpCode = null;
 		this.selectedAccountId = null;
 	}
 
 	void reset() {
 		clearCredentials();
 		commandRunner = null;
+		otpCommandRunner = null;
 	}
 
 	void injectCredentials(String accountId) {
@@ -145,6 +176,7 @@ final class CredentialsManager extends JFrame implements ActionListener {
 		} else {
 			setPassword();
 			setUsername();
+			fetchOtpCode();
 		}
 	}
 
