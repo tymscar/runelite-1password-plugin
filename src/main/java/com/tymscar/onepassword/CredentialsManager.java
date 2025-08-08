@@ -53,7 +53,7 @@ final class CredentialsManager extends JFrame implements ActionListener {
 	}
 
 	private void handleMultipleAccounts(String commandOutput) {
-		Pattern r = Pattern.compile("for the item \"(\\w+)\" in vault \\w+: (\\w+)");
+		Pattern r = Pattern.compile("for the item \"([^\"]+)\" in vault [^:]+: ([a-zA-Z0-9]+)");
 		Matcher matches = r.matcher(commandOutput);
 
 		ArrayList<String> accounts = new ArrayList<>();

@@ -48,6 +48,15 @@ public class OnePasswordPlugin extends Plugin {
 	@Override
 	protected void startUp() throws Exception {
 		credentialsManager.injectCredentials(null);
+		
+		GameState currentState = client.getGameState();
+		if (currentState == GameState.LOGIN_SCREEN || currentState == GameState.LOGIN_SCREEN_AUTHENTICATOR) {
+			javax.swing.Timer timer = new javax.swing.Timer(500, e -> {
+				credentialsManager.injectCredentials(null);
+			});
+			timer.setRepeats(false);
+			timer.start();
+		}
 	}
 
 	@Override
