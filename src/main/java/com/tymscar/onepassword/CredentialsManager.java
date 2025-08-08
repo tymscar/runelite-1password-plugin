@@ -22,6 +22,7 @@ final class CredentialsManager extends JFrame implements ActionListener {
 	private String otpCode;
 	private String selectedAccountId = null;
 	private ArrayList<String> AccountIds = new ArrayList<>();
+	private boolean credentialsApplied = false;
 	private JComboBox<String> accountsComboBox;
 	private JButton confirmButton;
 	private JFrame popupFrame;
@@ -137,12 +138,14 @@ final class CredentialsManager extends JFrame implements ActionListener {
 	private void setPassword() {
 		if (this.password != null) {
 			client.setPassword(this.password);
+			credentialsApplied = true;
 		}
 	}
 
 	private void setUsername() {
 		if (this.username != null) {
 			client.setUsername(this.username);
+			credentialsApplied = true;
 		}
 	}
 
@@ -157,23 +160,25 @@ final class CredentialsManager extends JFrame implements ActionListener {
 	}
 
 	void clearCredentials() {
+		this.otpCode = null;
+		credentialsApplied = false;
+	}
+
+	void reset() {
 		this.password = null;
 		this.username = null;
 		this.otpCode = null;
 		this.selectedAccountId = null;
-	}
-
-	void reset() {
-		clearCredentials();
+		credentialsApplied = false;
 		commandRunner = null;
 		otpCommandRunner = null;
 	}
 
 	void injectCredentials(String accountId) {
-		if (commandRunner == null) {
+		if (commandRunner == null && (this.username == null || this.password == null)) {
 			commandRunner = new CommandRunner(accountId, this::consumeResult);
 			commandRunner.start();
-		} else {
+		} else if (this.username != null && this.password != null && !credentialsApplied) {
 			setPassword();
 			setUsername();
 			fetchOtpCode();

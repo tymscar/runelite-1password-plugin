@@ -25,6 +25,9 @@ public class OnePasswordPlugin extends Plugin {
 	public void onGameStateChanged(GameStateChanged event) {
 		if (event.getGameState() == GameState.LOGGED_IN) {
 			credentialsManager.clearCredentials();
+		} else if (event.getGameState() == GameState.LOGIN_SCREEN || 
+		           event.getGameState() == GameState.LOGIN_SCREEN_AUTHENTICATOR) {
+			credentialsManager.injectCredentials(null);
 		}
 	}
 
