@@ -32,3 +32,9 @@ sourceCompatibility = '1.8'
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
+
+task runClient(type: JavaExec) {
+	classpath = sourceSets.test.runtimeClasspath
+	mainClass = 'com.tymscar.onepassword.OnePasswordPluginTest'
+	jvmArgs = ['-ea']
+}

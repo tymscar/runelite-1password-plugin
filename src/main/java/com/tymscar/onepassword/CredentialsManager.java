@@ -20,7 +20,7 @@ final class CredentialsManager extends JFrame implements ActionListener {
 	private String username;
 	private String selectedAccountId = null;
 	private ArrayList<String> AccountIds = new ArrayList<>();
-	private JComboBox accountsComboBox;
+	private JComboBox<String> accountsComboBox;
 	private JButton confirmButton;
 	private JFrame popupFrame;
 
@@ -63,7 +63,7 @@ final class CredentialsManager extends JFrame implements ActionListener {
 		popupFrame = new JFrame("More than one account detected!");
 		popupFrame.setLayout(new FlowLayout());
 
-		accountsComboBox = new JComboBox(accounts.toArray());
+		accountsComboBox = new JComboBox<>(accounts.toArray(new String[0]));
 
 		JLabel label = new JLabel("You have more than one account. Please select the entry name you want!");
 		label.setAlignmentX(JComponent.CENTER_ALIGNMENT);
@@ -85,7 +85,7 @@ final class CredentialsManager extends JFrame implements ActionListener {
 		popupFrame.setSize(600, 200);
 		popupFrame.setLocationRelativeTo(null);
 
-		popupFrame.show();
+		popupFrame.setVisible(true);
 	}
 
 	@Override
